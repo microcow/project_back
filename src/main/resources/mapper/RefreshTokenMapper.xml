@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.restdemo.mapper.RefreshTokenMapper">
+
+    <resultMap type="com.restdemo.domain.RefreshToken" id="RefreshTokenMap">
+        <id column="rt_id" property="id" />
+        <result column="rt_refresh_token" property="token" />
+        <result column="rt_expiry_date" property="expiryDate" />
+        <association property="user" javaType="User">
+            <id column="u_id" property="username" />
+            <result column="u_name" property="uName" />
+        </association>
+    </resultMap>
+
+    <select id="findByToken" parameterType="String" resultMap="RefreshTokenMap">
+        SELECT      ta.rt_id,
+                    ta.rt_refresh_token,
+                    ta.rt_expiry_date,
+                    tb.u_id,
+                    tb.u_name
+        FROM        lc_refresh_token ta
+        LEFT JOIN   lc_user tb ON ta.u_id = tb.u_id
+        WHERE       ta.rt_refresh_token = #{user.username}
+    </select>
+
+    <insert id="createRefreshToken" parameterType="RefreshToken" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO lc_refresh_token (
+            rt_refresh_token,
+            rt_expiry_date,
+            u_id
+        ) VALUES (
+            #{token},
+            #{expiryDate},
+            #{user.username}
+        )
+    </insert>
+
+    <delete id="deleteRefreshToken" parameterType="RefreshToken">
+        DELETE FROM lc_refresh_token WHERE rt_id = #{id}
+    </delete>
+</mapper>
