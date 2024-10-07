@@ -9,10 +9,16 @@ import java.util.List;
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
-    private String username;	//u_id
-    private String password;		//u_password
-    private String uName;			//u_name
-    private String uDateTime;	//u_datetime
+    private String username; // ID
+    private String password; // password
+    private String name; // 이름
+    private String regisDateTime; // 가입일
+    private String updateDateTime; // 정보 수정일
+    private String email; // 이메일
+    private String adress; //주소
+    private int number; // 연락처
+    private int basketID; // 장바구니 ID
+    private int point; // 포인트
 
     //security 관련
     private Collection<? extends GrantedAuthority> authorities;
@@ -21,25 +27,73 @@ public class User implements UserDetails {
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
+    
+    
+    public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getuName() {
-        return uName;
-    }
+	public String getRegisDateTime() {
+		return regisDateTime;
+	}
 
-    public void setuName(String uName) {
-        this.uName = uName;
-    }
+	public void setRegisDateTime(String regisDateTime) {
+		this.regisDateTime = regisDateTime;
+	}
 
-    public String getuDateTime() {
-        return uDateTime;
-    }
+	public String getUpdateDateTime() {
+		return updateDateTime;
+	}
 
-    public void setuDateTime(String uDateTime) {
-        this.uDateTime = uDateTime;
-    }
+	public void setUpdateDateTime(String updateDateTime) {
+		this.updateDateTime = updateDateTime;
+	}
 
-    public void setUsername(String username) {
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+	
+	public String getAdress() {
+		return adress;
+	}
+
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+	
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public int getBasketID() {
+		return basketID;
+	}
+
+	public void setBasketID(int basketID) {
+		this.basketID = basketID;
+	}
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
+	public void setUsername(String username) {
         this.username = username;
     }
 
@@ -65,7 +119,9 @@ public class User implements UserDetails {
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
-
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
@@ -106,14 +162,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         // TODO Auto-generated method stub
         return isEnabled;
-    }
-
-    @Override
-    public String toString() {
-        return "User [username=" + username + ", password=" + password + ", uName=" + uName + ", uDateTime=" + uDateTime
-                + ", authorities=" + authorities + ", isAccountNonExpired=" + isAccountNonExpired
-                + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired=" + isCredentialsNonExpired
-                + ", isEnabled=" + isEnabled + "]";
     }
 
 }

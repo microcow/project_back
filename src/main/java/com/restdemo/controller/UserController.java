@@ -43,6 +43,13 @@ public class UserController {
             throw new UsernameNotFoundException("invalid user request..!!");
         }
     }*/
+    
+    @PostMapping("/api/SignUp")
+    public String SignUp(@RequestBody User user){
+    	System.out.println("zz");
+    	return "";
+    }
+    
 
     @PostMapping("/api/login")
     public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
@@ -89,22 +96,5 @@ public class UserController {
                 }).orElseThrow(() ->new RuntimeException("Refresh Token is not in DB..!!"));*/
     }
 
-    @GetMapping("/api/users/me")
-    public User getUsersMe(@AuthenticationPrincipal User user) {
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.*/
-        //userService.getUser
-        return user;
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/ping")
-    public String test() {
-        try {
-            return "Welcome";
-        } catch (Exception e){
-            throw new RuntimeException(e);
-        }
-    }
 
 }
