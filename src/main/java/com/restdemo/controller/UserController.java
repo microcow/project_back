@@ -46,7 +46,7 @@ public class UserController {
     
     @PostMapping("/api/SignUp")
     public String SignUp(@RequestBody User user){
-    	System.out.println("zz");
+    	System.out.println(user);
     	return "";
     }
     
