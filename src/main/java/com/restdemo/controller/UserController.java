@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,28 +27,20 @@ public class UserController {
     AuthenticationManager authenticationManager;
     @Autowired
     UserService userService;
-
-    @GetMapping("/hello")
-    public User greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new User();
-    }
-
-    /*@PostMapping("/api/login")
-    public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
-        if(authentication.isAuthenticated()){
-            JwtResponseDTO jwtResponseDTO = new JwtResponseDTO();
-            jwtResponseDTO.setAccessToken(jwtService.GenerateToken(authRequestDTO.getUsername()));
-            return jwtResponseDTO;
-        } else {
-            throw new UsernameNotFoundException("invalid user request..!!");
-        }
-    }*/
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    
     
     @PostMapping("/api/SignUp")
     public String SignUp(@RequestBody User user){
-    	System.out.println(user);
-    	return "";
+    	if(userService.readUser(user.getUsername()) == null) {
+    		user.setPassword(passwordEncoder.encode(user.getPassword()));
+    		userService.createUser(user);
+    		return "회원가입을 축하드립니다.";
+    	}
+    	else {
+    		return "이미 존재하는 아이디입니다.";
+    	}
     }
     
 
@@ -60,10 +53,6 @@ public class UserController {
             jwtResponseDTO.setAccessToken(jwtService.GenerateToken(authRequestDTO.getUsername()));
             jwtResponseDTO.setToken(refreshToken.getToken());
             return jwtResponseDTO;
-            /*return JwtResponseDTO.builder()
-                    .accessToken(jwtService.GenerateToken(authRequestDTO.getUsername()))
-                    .token(refreshToken.getToken())
-                    .build();*/
         } else {
             throw new UsernameNotFoundException("invalid user request..!!");
         }

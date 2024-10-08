@@ -15,9 +15,8 @@ public class User implements UserDetails {
     private String regisDateTime; // 가입일
     private String updateDateTime; // 정보 수정일
     private String email; // 이메일
-    private String adress; //주소
-    private int number; // 연락처
-    private int basketID; // 장바구니 ID
+    private String address; //주소
+    private String number; // 연락처
     private int point; // 포인트
 
     //security 관련
@@ -61,28 +60,20 @@ public class User implements UserDetails {
 		this.email = email;
 	}
 
-	public int getNumber() {
+	public String getNumber() {
 		return number;
 	}
 	
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
-	public void setNumber(int number) {
+	public void setNumber(String number) {
 		this.number = number;
-	}
-
-	public int getBasketID() {
-		return basketID;
-	}
-
-	public void setBasketID(int basketID) {
-		this.basketID = basketID;
 	}
 
 	public int getPoint() {

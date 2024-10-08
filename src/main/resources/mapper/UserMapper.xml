@@ -11,36 +11,34 @@
 
     <!-- 회원 불러오기 -->
     <select id="readUser" parameterType="String" resultType="User">
-        SELECT         u_id                 						    as   username,
-        u_password             					as password,
-        u_name                						as   uName,
-        u_isAccountNonExpired        as isAccountNonExpired,
-        u_isAccountNonLocked    	    as isAccountNonLocked,
-        u_isCredentialNonExpired    as isCredentialsNonExpired,
-        u_isEnabled          				    as isEnabled
-        FROM         lc_user
+        SELECT         username                  as   username,
+        password             					as password,
+        name                						as   uName,
+        isAccountNonExpired        as isAccountNonExpired,
+        isAccountNonLocked    	    as isAccountNonLocked,
+        isCredentialsNonExpired    as isCredentialsNonExpired,
+        isEnabled          				    as isEnabled
+        FROM         user
         WHERE         1=1
-        AND            u_id   =   #{username}
+        AND            username   =   #{username}
     </select>
 
     <!-- 회원 등록 -->
     <insert id="createUser" parameterType="User">
-        INSERT INTO lc_user (
-        u_id,
-        u_password,
-        u_name,
-        u_isAccountNonExpired,
-        u_isAccountNonLocked,
-        u_isCredentialNonExpired,
-        u_isEnabled
+        INSERT INTO user (
+        username,
+        password,
+        name,
+        email,
+        address,
+        number
         ) VALUES (
         #{username},
         #{password},
-        #{uName},
-        #{isAccountNonExpired},
-        #{isAccountNonLocked},
-        #{isCredentialsNonExpired},
-        #{isEnabled}
+        #{name},
+        #{email},
+        #{address},
+        #{number}
         )
     </insert>
 
