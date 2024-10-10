@@ -30,6 +30,15 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
     
+    @PostMapping("/api/IdCheck")
+    public String IdCheck(@RequestBody User user){
+    	if(userService.readUser(user.getUsername()) == null) {
+    		return "사용가능 한 아이디입니다.";
+    	}
+    	else {
+    		return "이미 존재하는 아이디입니다.";
+    	}
+    }
     
     @PostMapping("/api/SignUp")
     public String SignUp(@RequestBody User user){
