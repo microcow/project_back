@@ -56,10 +56,11 @@ public class UserController {
     public JwtResponseDTO Signin(@RequestBody User user){ 
     	User getUser = userService.readUser(user.getUsername());
     	if (getUser.getUsername().equals(user.getUsername()) ||
-    		getUser.getPassword().equals(user.getPassword())) {
+    			passwordEncoder.encode(getUser.getPassword()).equals(passwordEncoder.encode(user.getPassword()))) {
+    		
     		AuthRequestDTO token = new AuthRequestDTO();
     		token.setUsername(user.getUsername());
-    		token.setPassword(user.getPassword()); // 입력받은 값과 db에 저장된 값이 일치하는지 인증해야되기 때문에 암호화된 비밀번호가 아닌 유저에게 입력받은 값을 세팅해야함
+    		token.setPassword(user.getPassword()); // authenticationManager메서드는 내부적으로 사용자가 입력한 비밀번호와 DB에 저장된 암호화된 비밀번호를 비교할 때 passwordEncoder.matches() 메서드를 사용합니다. 이 과정에서 원본 비밀번호를 그대로 사용해야 올바르게 검증됩니다.
     		
     		return AuthenticateAndGetToken(token);// token 생성 과정에서 시큐리티의 authenticationManager메서드가 호출됨
     	}
