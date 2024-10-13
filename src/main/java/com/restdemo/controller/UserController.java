@@ -52,8 +52,21 @@ public class UserController {
     	}
     }
     
+    @PostMapping("/api/SignIn")
+    public JwtResponseDTO Signin(@RequestBody User user){ 
+    	User getUser = userService.readUser(user.getUsername());
+    	if (getUser.getUsername().equals(user.getUsername()) ||
+    		getUser.getPassword().equals(user.getPassword())) {
+    		AuthRequestDTO token = new AuthRequestDTO();
+    		token.setUsername(user.getUsername());
+    		token.setPassword(user.getPassword()); // 입력받은 값과 db에 저장된 값이 일치하는지 인증해야되기 때문에 암호화된 비밀번호가 아닌 유저에게 입력받은 값을 세팅해야함
+    		
+    		return AuthenticateAndGetToken(token);// token 생성 과정에서 시큐리티의 authenticationManager메서드가 호출됨
+    	}
+    	else return null;
+    }
 
-    @PostMapping("/api/login")
+    @PostMapping("/api/SetToken")
     public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if(authentication.isAuthenticated()){

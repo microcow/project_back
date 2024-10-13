@@ -3,10 +3,10 @@
 <mapper namespace="com.restdemo.mapper.UserMapper">
     <!-- 권한 읽기 -->
     <select id="readAuthorities" parameterType="String" resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">
-        SELECT         u_auth
-        FROM         lc_auth
+        SELECT       auth
+        FROM         auth
         WHERE          1=1
-        AND            u_id = #{username}
+        AND            username = #{username}
     </select>
 
     <!-- 회원 불러오기 -->
@@ -44,7 +44,7 @@
 
     <!-- 유저 권한 추가 -->
     <insert id="createAuthority" parameterType="org.springframework.security.core.GrantedAuthority">
-        INSERT INTO lc_auth (
+        INSERT INTO auth (
         u_id,
         u_auth
         ) VALUES

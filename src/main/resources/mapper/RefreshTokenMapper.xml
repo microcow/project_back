@@ -7,8 +7,8 @@
         <result column="rt_refresh_token" property="token" />
         <result column="rt_expiry_date" property="expiryDate" />
         <association property="user" javaType="User">
-            <id column="u_id" property="username" />
-            <result column="u_name" property="uName" />
+            <id column="username" property="username" />
+            <result column="name" property="uName" />
         </association>
     </resultMap>
 
@@ -16,18 +16,18 @@
         SELECT      ta.rt_id,
                     ta.rt_refresh_token,
                     ta.rt_expiry_date,
-                    tb.u_id,
-                    tb.u_name
-        FROM        lc_refresh_token ta
-        LEFT JOIN   lc_user tb ON ta.u_id = tb.u_id
+                    tb.username,
+                    tb.name
+        FROM        refresh_token ta
+        LEFT JOIN   user tb ON ta.username = tb.username
         WHERE       ta.rt_refresh_token = #{user.username}
     </select>
 
     <insert id="createRefreshToken" parameterType="RefreshToken" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO lc_refresh_token (
+        INSERT INTO refresh_token (
             rt_refresh_token,
             rt_expiry_date,
-            u_id
+            username
         ) VALUES (
             #{token},
             #{expiryDate},
@@ -36,6 +36,6 @@
     </insert>
 
     <delete id="deleteRefreshToken" parameterType="RefreshToken">
-        DELETE FROM lc_refresh_token WHERE rt_id = #{id}
+        DELETE FROM refresh_token WHERE rt_id = #{id}
     </delete>
 </mapper>
