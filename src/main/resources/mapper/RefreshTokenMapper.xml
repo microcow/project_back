@@ -42,7 +42,9 @@
         )
     </insert>
 
-    <delete id="deleteRefreshToken" parameterType="RefreshToken">
-        DELETE FROM refresh_token WHERE rt_id = #{id}
+    <delete id="deleteRefreshToken" parameterType="RefreshTokenRequestDTO">
+        DELETE 
+        FROM refresh_token 
+        WHERE rt_refresh_token = #{token}
     </delete>
 </mapper>

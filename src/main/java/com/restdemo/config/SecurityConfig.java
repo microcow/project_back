@@ -67,6 +67,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/SignIn").permitAll()
                         .requestMatchers("/api/IdCheck").permitAll()
                         .requestMatchers("/api/refreshToken").permitAll()
+                        .requestMatchers("/api/DeleterefreshToken").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
                 )

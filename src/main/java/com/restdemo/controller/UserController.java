@@ -71,10 +71,13 @@ public class UserController {
     public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if(authentication.isAuthenticated()){
+        	
             // 액세스 토큰(jwt) 발급
             JwtResponseDTO jwtResponseDTO = new JwtResponseDTO();
-            jwtResponseDTO.setAccessToken(jwtService.GenerateToken(authRequestDTO.getUsername()));  	
-            // 리프레쉬 토큰(refreshToken) 발급 (*해당 username으로 유효한 리프레쉬 토큰이 없는 경우에만 발급)
+            jwtResponseDTO.setAccessToken(jwtService.GenerateToken(authRequestDTO.getUsername()));  
+            
+            // 리프레쉬 토큰(refreshToken) 발급 (*DB에 해당 username으로 유효한 리프레쉬 토큰이 없는 경우에만 발급)
+            // * 리프레쉬 토큰만 DB에 저장됨
             if(refreshTokenService.findRefreshTokenByUsername(authRequestDTO.getUsername()) == null) {
                 RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDTO.getUsername());
                 jwtResponseDTO.setToken(refreshToken.getToken());
@@ -100,16 +103,15 @@ public class UserController {
         jwtResponseDTO.setToken(refreshTokenRequestDTO.getToken());
 
         return jwtResponseDTO;
-
-        /*return refreshTokenService.findByToken(refreshTokenRequestDTO.getToken())
-                .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUserInfo)
-                .map(userInfo -> {
-                    String accessToken = jwtService.GenerateToken(userInfo.getUsername());
-                    return JwtResponseDTO.builder()
-                            .accessToken(accessToken)
-                            .token(refreshTokenRequestDTO.getToken()).build();
-                }).orElseThrow(() ->new RuntimeException("Refresh Token is not in DB..!!"));*/
+    }
+    
+    @PostMapping("/api/DeleterefreshToken")
+    public String DeleterefreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO){
+    	 if (refreshTokenRequestDTO.getToken() == null || refreshTokenRequestDTO.getToken().isEmpty()) {
+    		 return "refreshToken is Empty!";
+    	 }
+    	 else refreshTokenService.deleteRefreshToken(refreshTokenRequestDTO);
+    	      return "complete!";
     }
 
 
