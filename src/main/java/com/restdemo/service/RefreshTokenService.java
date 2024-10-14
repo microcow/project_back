@@ -39,6 +39,10 @@ public class RefreshTokenService {
     public RefreshToken findByToken(String token){
         return refreshTokenMapper.findByToken(token);
     }
+    
+    public RefreshToken findRefreshTokenByUsername(String username) {
+    	return refreshTokenMapper.findRefreshTokenByUsername(username);
+    }
 
     public void verifyExpiration(RefreshToken token){
         if(token.getExpiryDate().compareTo(Instant.now())<0){

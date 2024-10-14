@@ -8,7 +8,7 @@
         <result column="rt_expiry_date" property="expiryDate" />
         <association property="user" javaType="User">
             <id column="username" property="username" />
-            <result column="name" property="uName" />
+            <result column="name" property="name" />
         </association>
     </resultMap>
 
@@ -21,6 +21,13 @@
         FROM        refresh_token ta
         LEFT JOIN   user tb ON ta.username = tb.username
         WHERE       ta.rt_refresh_token = #{user.username}
+    </select>
+    
+    <select id="findRefreshTokenByUsername" parameterType="String" resultMap="RefreshTokenMap">
+        SELECT      *
+        FROM        refresh_token
+        WHERE       username = #{user.username}
+        AND			rt_expiry_date > NOW()
     </select>
 
     <insert id="createRefreshToken" parameterType="RefreshToken" useGeneratedKeys="true" keyProperty="id">

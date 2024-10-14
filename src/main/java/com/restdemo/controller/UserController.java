@@ -71,11 +71,15 @@ public class UserController {
     public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if(authentication.isAuthenticated()){
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDTO.getUsername());
+            // 액세스 토큰(jwt) 발급
             JwtResponseDTO jwtResponseDTO = new JwtResponseDTO();
-            jwtResponseDTO.setAccessToken(jwtService.GenerateToken(authRequestDTO.getUsername()));
-            jwtResponseDTO.setToken(refreshToken.getToken());
-            return jwtResponseDTO;
+            jwtResponseDTO.setAccessToken(jwtService.GenerateToken(authRequestDTO.getUsername()));  	
+            // 리프레쉬 토큰(refreshToken) 발급 (*해당 username으로 유효한 리프레쉬 토큰이 없는 경우에만 발급)
+            if(refreshTokenService.findRefreshTokenByUsername(authRequestDTO.getUsername()) == null) {
+                RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDTO.getUsername());
+                jwtResponseDTO.setToken(refreshToken.getToken());
+            }
+            return jwtResponseDTO; // 액세스 토큰과 리프레쉬 토큰 두개를 return (리프레쉬 토큰이 발급된 경우)
         } else {
             throw new UsernameNotFoundException("invalid user request..!!");
         }

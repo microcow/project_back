@@ -10,4 +10,6 @@ public interface RefreshTokenMapper {
     public void createRefreshToken(RefreshToken refreshToken);
 
     public void deleteRefreshToken(RefreshToken refreshToken);
+    
+    public RefreshToken findRefreshTokenByUsername(String username);
 }
