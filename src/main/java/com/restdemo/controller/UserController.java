@@ -4,6 +4,10 @@ import com.restdemo.domain.*;
 import com.restdemo.service.JwtService;
 import com.restdemo.service.RefreshTokenService;
 import com.restdemo.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -112,6 +116,13 @@ public class UserController {
     	 }
     	 else refreshTokenService.deleteRefreshToken(refreshTokenRequestDTO);
     	      return "complete!";
+    }
+    
+    @PostMapping("/api/readUserList")
+    public List<User> readUserList(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO){
+    	List<User> userList = new ArrayList();
+    	userList = userService.readUserList();
+    	return userList;
     }
 
 

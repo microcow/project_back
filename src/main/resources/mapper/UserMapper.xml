@@ -41,6 +41,12 @@
         #{number}
         )
     </insert>
+    
+    <!-- 회원 목록 불러오기 -->
+    <select id="readUserList" resultType="User">
+        SELECT         *
+        FROM         user
+    </select>
 
     <!-- 유저 권한 추가 -->
     <insert id="createAuthority" parameterType="org.springframework.security.core.GrantedAuthority">

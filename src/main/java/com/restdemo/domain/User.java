@@ -9,6 +9,7 @@ import java.util.List;
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
+    private String index;
     private String username; // ID
     private String password; // password
     private String name; // 이름
@@ -28,7 +29,15 @@ public class User implements UserDetails {
     private boolean isEnabled;
     
     
-    public String getName() {
+    public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
+	}
+
+	public String getName() {
 		return name;
 	}
 
