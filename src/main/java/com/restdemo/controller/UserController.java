@@ -6,6 +6,7 @@ import com.restdemo.service.RefreshTokenService;
 import com.restdemo.service.UserService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +45,14 @@ public class UserController {
     		return "이미 존재하는 아이디입니다.";
     	}
     }
+    
+    @PostMapping("/api/CheckAuthByCookie")
+    public Collection<GrantedAuthority> CheckAuthByCookie(@AuthenticationPrincipal UserDetails userDetails){
+    	String username = userDetails.getUsername();
+    	Collection<GrantedAuthority> userAuth = userService.getAuthorities(username);
+    	return userAuth;
+    }
+    
     
     @PostMapping("/api/SignUp")
     public String SignUp(@RequestBody User user){

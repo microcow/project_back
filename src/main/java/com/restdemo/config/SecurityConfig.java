@@ -56,7 +56,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -69,6 +69,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/refreshToken").permitAll()
                         .requestMatchers("/api/DeleterefreshToken").permitAll()
                         .requestMatchers("/api/readUserList").permitAll()
+                        .requestMatchers("/api/CheckAuthByCookie").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
                 )
