@@ -134,6 +134,14 @@ public class UserController {
     	userList = userService.readUserList();
     	return userList;
     }
+    
+    @PostMapping("/api/admin/readUserByUsername")
+    public User readUserByUsername(@RequestHeader("Authorization") String jwt,
+    							   @RequestBody User user ){
+    	User edituser = userService.readUser(user.getUsername());
+    	
+    	return edituser; 
+    }
 
 
 }

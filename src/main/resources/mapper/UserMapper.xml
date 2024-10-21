@@ -11,13 +11,7 @@
 
     <!-- 회원 불러오기 -->
     <select id="readUser" parameterType="String" resultType="User">
-        SELECT         username                  as   username,
-        password             					as password,
-        name                						as   uName,
-        isAccountNonExpired        as isAccountNonExpired,
-        isAccountNonLocked    	    as isAccountNonLocked,
-        isCredentialsNonExpired    as isCredentialsNonExpired,
-        isEnabled          				    as isEnabled
+        SELECT         *
         FROM         user
         WHERE         1=1
         AND            username   =   #{username}
