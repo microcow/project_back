@@ -142,6 +142,29 @@ public class UserController {
     	
     	return edituser; 
     }
+    
+    @PostMapping("/api/admin/deleteUser")
+    public String deleteUser(@RequestHeader("Authorization") String jwt,
+    						 @RequestBody User user ){
+    	String username = user.getUsername();
+    	if(username == null) {
+    		return "정보없음";
+    	}
+    	else
+    		userService.deleteUser(username);
+    	return "삭제완료"; 
+    }
+    
+    @PostMapping("/api/admin/updateUser") /// 회원 검색 기능, 회원 업데이트 기능 만들기
+    public String updateUser(@RequestHeader("Authorization") String jwt,
+    						 @RequestBody User user,
+    						 @RequestBody String Auth) {
+    	String username = user.getUsername();
+    	if(username == null) {
+    		return "정보없음";
+    	}
+    	return "삭제완료";
+    }
 
 
 }

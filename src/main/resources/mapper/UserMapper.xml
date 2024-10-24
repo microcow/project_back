@@ -40,7 +40,15 @@
     <select id="readUserList" resultType="User">
         SELECT         *
         FROM         user
+        ORDER BY `index` asc
     </select>
+    
+    <!-- 회원 삭제하기 -->
+    <delete id="deleteUser" parameterType="String">
+        DELETE
+        FROM         user
+        WHERE        username   =   #{username}
+    </delete>
 
     <!-- 유저 권한 추가 -->
     <insert id="createAuthority" parameterType="org.springframework.security.core.GrantedAuthority">

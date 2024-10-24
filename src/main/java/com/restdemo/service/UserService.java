@@ -18,6 +18,9 @@ public interface UserService extends UserDetailsService {
 
     // 권한 생성
     public void createAuthorities(User user);
+    
+    // 유저 삭제
+    public void deleteUser(String username);
 
     // 시큐리티 권한 얻기
     Collection<GrantedAuthority> getAuthorities(String username);

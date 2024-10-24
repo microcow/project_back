@@ -55,4 +55,9 @@ public class UserServiceImpl implements UserService {
     public List<User> readUserList() {
     	return userMapper.readUserList();
     }
+    
+    @Override
+    public void deleteUser(String username) {
+    	userMapper.deleteUser(username);
+    }
 }
