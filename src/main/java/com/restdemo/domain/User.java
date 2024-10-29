@@ -18,7 +18,8 @@ public class User implements UserDetails {
     private String email; // 이메일
     private String address; //주소
     private String number; // 연락처
-    private int point; // 포인트
+    private String auth; // 권한
+    private String point; // 포인트
 
     //security 관련
     private Collection<? extends GrantedAuthority> authorities;
@@ -28,8 +29,16 @@ public class User implements UserDetails {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
     
-    
-    public String getIndex() {
+
+	public String getAuth() {
+		return auth;
+	}
+
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
+
+	public String getIndex() {
 		return index;
 	}
 
@@ -85,11 +94,11 @@ public class User implements UserDetails {
 		this.number = number;
 	}
 
-	public int getPoint() {
+	public String getPoint() {
 		return point;
 	}
 
-	public void setPoint(int point) {
+	public void setPoint(String point) {
 		this.point = point;
 	}
 
@@ -162,6 +171,31 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         // TODO Auto-generated method stub
         return isEnabled;
+    }
+    
+    // 변수 값이 문자열 "null"일 경우 null 값으로 값을 정제하는 메서드
+    public void sanitizeFields() {
+    	if ("null".equals(this.username)) {
+            this.username = null;
+        }
+    	if ("null".equals(this.name)) {
+            this.name = null;
+        }
+        if ("null".equals(this.number)) {
+            this.number = null;
+        }
+        if ("null".equals(this.address)) {
+            this.address = null;
+        }
+        if ("null".equals(this.email)) {
+            this.email = null;
+        }
+        if ("null".equals(this.auth)) {
+            this.auth = null;
+        }
+        if ("null".equals(this.point)) {
+            this.point = null;
+        }
     }
 
 }

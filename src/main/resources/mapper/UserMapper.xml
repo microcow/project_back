@@ -36,6 +36,19 @@
         )
     </insert>
     
+	<!-- 회원 정보 업데이트 -->
+	<update id="updateUser" parameterType="User">
+   		UPDATE user
+   		<set>
+        	<if test="name != null">name = #{name},</if>
+        	<if test="email != null">email = #{email},</if>
+        	<if test="number != null">number = #{number},</if>
+        	<if test="address != null">address = #{address},</if>
+        	<if test="point != null">point = #{point}</if>
+    	</set>
+    	WHERE `index` = #{index}
+	</update>
+    
     <!-- 회원 목록 불러오기 -->
     <select id="readUserList" resultType="User">
         SELECT         *

@@ -13,7 +13,7 @@ public interface UserService extends UserDetailsService {
     
     public List<User> readUserList();
 
-    //유저생성
+    //유저 생성
     public void createUser(User user);
 
     // 권한 생성
@@ -21,6 +21,9 @@ public interface UserService extends UserDetailsService {
     
     // 유저 삭제
     public void deleteUser(String username);
+    
+    // 유저 정보 업데이트
+    public void updateUser(User user);
 
     // 시큐리티 권한 얻기
     Collection<GrantedAuthority> getAuthorities(String username);

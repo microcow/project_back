@@ -25,5 +25,8 @@ public interface UserMapper {
     
     // 유저 리스트 읽기
     public List<User> readUserList();
+    
+    // 유저 정보 업데이트
+    public void updateUser(User user);
 }
 

@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,7 +57,7 @@ public class UserController {
     
     
     @PostMapping("/api/SignUp")
-    public String SignUp(@RequestBody User user){
+    public String SignUp(@RequestBody User user){ /// ResponseEntity<String>로 return하도록 수정하기!! (updateUser 참고)
     	if(userService.readUser(user.getUsername()) == null) {
     		user.setPassword(passwordEncoder.encode(user.getPassword()));
     		userService.createUser(user);
@@ -143,7 +145,7 @@ public class UserController {
     	return edituser; 
     }
     
-    @PostMapping("/api/admin/deleteUser")
+    @PostMapping("/api/admin/deleteUser") /// ResponseEntity<String>로 return하도록 수정하기!! (updateUser 참고)
     public String deleteUser(@RequestHeader("Authorization") String jwt,
     						 @RequestBody User user ){
     	String username = user.getUsername();
@@ -155,16 +157,22 @@ public class UserController {
     	return "삭제완료"; 
     }
     
-    @PostMapping("/api/admin/updateUser") /// 회원 검색 기능, 회원 업데이트 기능 만들기
-    public String updateUser(@RequestHeader("Authorization") String jwt,
-    						 @RequestBody User user,
-    						 @RequestBody String Auth) {
-    	String username = user.getUsername();
-    	if(username == null) {
-    		return "정보없음";
+    @PostMapping("/api/admin/updateUser") /// 회원 검색 기능 만들기
+    public ResponseEntity<String> updateUser(@RequestHeader("Authorization") String jwt,
+    						 @RequestBody User user) {
+    	
+    	if(user.getIndex() == null || user.getIndex().equals("null")) {
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("회원정보를 불러오지 못했습니다.");
     	}
-    	return "삭제완료";
+    	
+    	try {
+    	user.sanitizeFields(); // 문자열 "null"을 전달받았을 경우 값을 null로 변경하는 메서드 (userUpdate xml에서 값이 null일 경우 정보 업데이트를 진행하지 않기 위함)
+    	userService.updateUser(user);
+    	return ResponseEntity.ok("회원정보가 수정되었습니다.");
+    	}catch (Exception e) {
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("회원정보 수정 중 오류가 발생했습니다.");
+    	}
     }
-
-
 }
