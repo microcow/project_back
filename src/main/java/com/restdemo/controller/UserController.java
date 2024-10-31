@@ -159,20 +159,30 @@ public class UserController {
     
     @PostMapping("/api/admin/updateUser") /// 회원 검색 기능 만들기
     public ResponseEntity<String> updateUser(@RequestHeader("Authorization") String jwt,
-    						 @RequestBody User user) {
-    	
+    						 				 @RequestBody User user) {
     	if(user.getIndex() == null || user.getIndex().equals("null")) {
     		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("회원정보를 불러오지 못했습니다.");
     	}
-    	
     	try {
-    	user.sanitizeFields(); // 문자열 "null"을 전달받았을 경우 값을 null로 변경하는 메서드 (userUpdate xml에서 값이 null일 경우 정보 업데이트를 진행하지 않기 위함)
-    	userService.updateUser(user);
-    	return ResponseEntity.ok("회원정보가 수정되었습니다.");
+    		// 문자열 "null"을 전달받았을 경우 값을 null로 변경하는 메서드 (userUpdate xml에서 <set> 태그를 통해 값이 null일 경우 정보 업데이트를 진행하지 않기 위함)
+    		user.sanitizeFields();
+    		
+    		// 1. isUserUpdateEmpty : 수정된 내용이 하나라도 있는지 확인하는 메서드 (auth변수는 user와 db테이블이 다르기 때문에 해당 메서드에서 수정 여부를 확인하지 않음)
+    		// 2. 수정된 내용이 없을 경우 updateUser 실행하지 않음 (수정된 내용이 없어도 'updateUser' xml 쿼리가 실행되는데, 이 때 오류가 발생하기에 해당 조치를 취함)
+    		if(user.isUserUpdateEmpty()) {
+    			userService.updateUser(user);
+    		}
+    	
+    		// auth값이 null이 아닌지 확인 (권한이 변경되었는지 확인, 없으면 updateAuth 실행x)
+    		if(user.getAuth() != null) {
+    			userService.updateAuth(user);
+    		}
+    	
+    		return ResponseEntity.ok("회원정보가 수정되었습니다.");
     	}catch (Exception e) {
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("회원정보 수정 중 오류가 발생했습니다.");
+    				.body("회원정보 수정 중 오류가 발생했습니다.");
     	}
     }
 }

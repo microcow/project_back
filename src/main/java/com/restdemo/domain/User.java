@@ -18,7 +18,7 @@ public class User implements UserDetails {
     private String email; // 이메일
     private String address; //주소
     private String number; // 연락처
-    private String auth; // 권한
+    private String auth; // 권한 (*auth는 다른 변수들과 달리 user테이블의 username과 index값을 왜래키로 가지는 'auth' 테이블이 별도로 존재함)
     private String point; // 포인트
 
     //security 관련
@@ -196,6 +196,16 @@ public class User implements UserDetails {
         if ("null".equals(this.point)) {
             this.point = null;
         }
+    }
+    
+    // 수정 시 변경된 내용이 하나라도 있는지 확인하는 메서드
+    public boolean isUserUpdateEmpty() {
+        return this.name != null ||
+        	   this.username != null ||
+        	   this.email != null ||
+               this.number != null ||
+               this.address != null ||
+               this.point != null;
     }
 
 }

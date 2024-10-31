@@ -24,6 +24,9 @@ public interface UserService extends UserDetailsService {
     
     // 유저 정보 업데이트
     public void updateUser(User user);
+    
+    // 유저 권한 업데이트
+    public void updateAuth(User user);
 
     // 시큐리티 권한 얻기
     Collection<GrantedAuthority> getAuthorities(String username);

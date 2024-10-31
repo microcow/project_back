@@ -28,5 +28,8 @@ public interface UserMapper {
     
     // 유저 정보 업데이트
     public void updateUser(User user);
+    
+    // 유저 권한 업데이트
+    public void updateAuth(User user);
 }
 

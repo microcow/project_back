@@ -76,5 +76,14 @@
         UPDATE
         u_id = #{username}
     </insert>
+    
+    <!-- 유저 권한 업데이트 -->
+    <update id="updateAuth" parameterType="User">
+   		UPDATE auth
+   		<set>
+        	<if test="auth != null">auth = #{auth}</if>
+    	</set>
+    	WHERE `user_index` = #{index}
+	</update>
 
 </mapper>
