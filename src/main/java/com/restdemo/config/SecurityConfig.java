@@ -70,7 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/DeleterefreshToken").permitAll()
                         .requestMatchers("/api/readUserList").permitAll()
                         .requestMatchers("/api/CheckAuthByCookie").permitAll()
-                        .requestMatchers("/api/admin/**").authenticated()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .sessionManagement((sessionManagement) -> sessionManagement

@@ -11,6 +11,7 @@ public interface UserService extends UserDetailsService {
     //유저읽기
     public User readUser(String username);
     
+    //유저목록 읽기
     public List<User> readUserList();
 
     //유저 생성

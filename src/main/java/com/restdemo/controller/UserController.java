@@ -1,6 +1,7 @@
 package com.restdemo.controller;
 
 import com.restdemo.domain.*;
+import com.restdemo.service.CategoryService;
 import com.restdemo.service.JwtService;
 import com.restdemo.service.RefreshTokenService;
 import com.restdemo.service.UserService;
@@ -35,6 +36,8 @@ public class UserController {
     AuthenticationManager authenticationManager;
     @Autowired
     UserService userService;
+    @Autowired
+    CategoryService categoryservice;
     @Autowired
     PasswordEncoder passwordEncoder;
     
@@ -184,5 +187,11 @@ public class UserController {
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
     				.body("회원정보 수정 중 오류가 발생했습니다.");
     	}
+    }
+    
+    @PostMapping("/api/admin/ReadlgCategoryList")
+    public List<Category> ReadlgCategoryList(@RequestHeader("Authorization") String jwt){
+    	List<Category> lgcategoryList = categoryservice.ReadlgCategoryList();
+    	return lgcategoryList; 
     }
 }

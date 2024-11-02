@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.restdemo.mapper.CategoryMapper">
+	
+	<select id="ReadlgCategoryList" resultType="Category">
+        SELECT         *
+        FROM         categories
+        WHERE 		1 = 1
+        AND			(smcategory IS NULL OR smcategory = 'null')
+    </select>
+    
+</mapper>

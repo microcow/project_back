@@ -1,5 +1,4 @@
 package com.restdemo.mapper;
-import com.restdemo.domain.RefreshToken;
 import com.restdemo.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.GrantedAuthority;
