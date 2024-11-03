@@ -190,8 +190,28 @@ public class UserController {
     }
     
     @PostMapping("/api/admin/ReadlgCategoryList")
-    public List<Category> ReadlgCategoryList(@RequestHeader("Authorization") String jwt){
-    	List<Category> lgcategoryList = categoryservice.ReadlgCategoryList();
-    	return lgcategoryList; 
+    public ResponseEntity<?> ReadlgCategoryList(@RequestHeader("Authorization") String jwt) {
+        try {
+            List<Category> lgcategoryList = categoryservice.ReadlgCategoryList();
+            if(lgcategoryList == null || lgcategoryList.isEmpty()) {
+            	return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("회원정보를 불러오지 못했습니다.");
+            }
+            else return ResponseEntity.ok(lgcategoryList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("서버에서 오류가 발생했습니다.");
+        }
+    }
+    
+    @PostMapping("/api/admin/AddCategory")
+    public ResponseEntity<String> AddCategory(@RequestHeader("Authorization") String jwt,
+    										  @RequestBody Category category) {
+    	if(category.getLevel() == null || category.getLevel() == "null") {
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+    				.body("카테고리 정보를 불러오지 못했습니다.");
+    	}
+    	return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("회원정보를 불러오지 못했습니다.");
     }
 }
