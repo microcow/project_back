@@ -145,7 +145,7 @@ public class UserController {
     							   @RequestBody User user ){
     	User edituser = userService.readUser(user.getUsername());
     	
-    	return edituser; 
+    	return edituser;
     }
     
     @PostMapping("/api/admin/deleteUser") /// ResponseEntity<String>로 return하도록 수정하기!! (updateUser 참고)
